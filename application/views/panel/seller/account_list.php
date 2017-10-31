@@ -47,7 +47,7 @@
                                     <?php else: ?>
                                    
                                         <tr>
-                                            <td class="text-muted text-center" colspan="6"> No User</td>
+                                            <td class="text-muted text-center" colspan="6"> ไม่พบผู้ใช้</td>
                                         </tr>
                                    <?php endif; ?>
                             </tbody>
