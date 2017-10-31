@@ -38,78 +38,76 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Array Helpers
+ * CodeIgniter Cookie Helpers
  *
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/array_helper.html
+ * @link		https://codeigniter.com/user_guide/helpers/cookie_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('element'))
+if ( ! function_exists('set_cookie'))
 {
 	/**
-	 * Element
+	 * Set cookie
 	 *
-	 * Lets you determine whether an array index is set and whether it has a value.
-	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
+	 * Accepts seven parameters, or you can submit an associative
+	 * array in the first parameter containing all the values.
 	 *
-	 * @param	string
-	 * @param	array
 	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @param	string	the value of the cookie
+	 * @param	string	the number of seconds until expiration
+	 * @param	string	the cookie domain.  Usually:  .yourdomain.com
+	 * @param	string	the cookie path
+	 * @param	string	the cookie prefix
+	 * @param	bool	true makes the cookie secure
+	 * @param	bool	true makes the cookie accessible via http(s) only (no javascript)
+	 * @return	void
 	 */
-	function element($item, array $array, $default = NULL)
+	function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL)
 	{
-		return array_key_exists($item, $array) ? $array[$item] : $default;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('random_element'))
-{
-	/**
-	 * Random Element - Takes an array as input and returns a random element
-	 *
-	 * @param	array
-	 * @return	mixed	depends on what the array contains
-	 */
-	function random_element($array)
-	{
-		return is_array($array) ? $array[array_rand($array)] : $array;
+		// Set the config file options
+		get_instance()->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httponly);
 	}
 }
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('elements'))
+if ( ! function_exists('get_cookie'))
 {
 	/**
-	 * Elements
+	 * Fetch an item from the COOKIE array
 	 *
-	 * Returns only the array items specified. Will return a default value if
-	 * it is not set.
-	 *
-	 * @param	array
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @param	string
+	 * @param	bool
+	 * @return	mixed
 	 */
-	function elements($items, array $array, $default = NULL)
+	function get_cookie($index, $xss_clean = NULL)
 	{
-		$return = array();
+		is_bool($xss_clean) OR $xss_clean = (config_item('global_xss_filtering') === TRUE);
+		$prefix = isset($_COOKIE[$index]) ? '' : config_item('cookie_prefix');
+		return get_instance()->input->cookie($prefix.$index, $xss_clean);
+	}
+}
 
-		is_array($items) OR $items = array($items);
+// --------------------------------------------------------------------
 
-		foreach ($items as $item)
-		{
-			$return[$item] = array_key_exists($item, $array) ? $array[$item] : $default;
-		}
-
-		return $return;
+if ( ! function_exists('delete_cookie'))
+{
+	/**
+	 * Delete a COOKIE
+	 *
+	 * @param	mixed
+	 * @param	string	the cookie domain. Usually: .yourdomain.com
+	 * @param	string	the cookie path
+	 * @param	string	the cookie prefix
+	 * @return	void
+	 */
+	function delete_cookie($name, $domain = '', $path = '/', $prefix = '')
+	{
+		set_cookie($name, '', '', $domain, $path, $prefix);
 	}
 }

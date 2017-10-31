@@ -38,78 +38,100 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Array Helpers
+ * CodeIgniter Security Helpers
  *
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/array_helper.html
+ * @link		https://codeigniter.com/user_guide/helpers/security_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('element'))
+if ( ! function_exists('xss_clean'))
 {
 	/**
-	 * Element
-	 *
-	 * Lets you determine whether an array index is set and whether it has a value.
-	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
+	 * XSS Filtering
 	 *
 	 * @param	string
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @param	bool	whether or not the content is an image file
+	 * @return	string
 	 */
-	function element($item, array $array, $default = NULL)
+	function xss_clean($str, $is_image = FALSE)
 	{
-		return array_key_exists($item, $array) ? $array[$item] : $default;
+		return get_instance()->security->xss_clean($str, $is_image);
 	}
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('random_element'))
+if ( ! function_exists('sanitize_filename'))
 {
 	/**
-	 * Random Element - Takes an array as input and returns a random element
+	 * Sanitize Filename
 	 *
-	 * @param	array
-	 * @return	mixed	depends on what the array contains
+	 * @param	string
+	 * @return	string
 	 */
-	function random_element($array)
+	function sanitize_filename($filename)
 	{
-		return is_array($array) ? $array[array_rand($array)] : $array;
+		return get_instance()->security->sanitize_filename($filename);
 	}
 }
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('elements'))
+if ( ! function_exists('do_hash'))
 {
 	/**
-	 * Elements
+	 * Hash encode a string
 	 *
-	 * Returns only the array items specified. Will return a default value if
-	 * it is not set.
-	 *
-	 * @param	array
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @todo	Remove in version 3.1+.
+	 * @deprecated	3.0.0	Use PHP's native hash() instead.
+	 * @param	string	$str
+	 * @param	string	$type = 'sha1'
+	 * @return	string
 	 */
-	function elements($items, array $array, $default = NULL)
+	function do_hash($str, $type = 'sha1')
 	{
-		$return = array();
-
-		is_array($items) OR $items = array($items);
-
-		foreach ($items as $item)
+		if ( ! in_array(strtolower($type), hash_algos()))
 		{
-			$return[$item] = array_key_exists($item, $array) ? $array[$item] : $default;
+			$type = 'md5';
 		}
 
-		return $return;
+		return hash($type, $str);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('strip_image_tags'))
+{
+	/**
+	 * Strip Image Tags
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	function strip_image_tags($str)
+	{
+		return get_instance()->security->strip_image_tags($str);
+	}
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('encode_php_tags'))
+{
+	/**
+	 * Convert PHP tags to entities
+	 *
+	 * @param	string
+	 * @return	string
+	 */
+	function encode_php_tags($str)
+	{
+		return str_replace(array('<?', '?>'), array('&lt;?', '?&gt;'), $str);
 	}
 }

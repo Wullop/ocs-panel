@@ -38,78 +38,64 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Array Helpers
+ * CodeIgniter Directory Helpers
  *
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/array_helper.html
+ * @link		https://codeigniter.com/user_guide/helpers/directory_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('element'))
+if ( ! function_exists('directory_map'))
 {
 	/**
-	 * Element
+	 * Create a Directory Map
 	 *
-	 * Lets you determine whether an array index is set and whether it has a value.
-	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
+	 * Reads the specified directory and builds an array
+	 * representation of it. Sub-folders contained with the
+	 * directory will be mapped as well.
 	 *
-	 * @param	string
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @param	string	$source_dir		Path to source
+	 * @param	int	$directory_depth	Depth of directories to traverse
+	 *						(0 = fully recursive, 1 = current dir, etc)
+	 * @param	bool	$hidden			Whether to show hidden files
+	 * @return	array
 	 */
-	function element($item, array $array, $default = NULL)
+	function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE)
 	{
-		return array_key_exists($item, $array) ? $array[$item] : $default;
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('random_element'))
-{
-	/**
-	 * Random Element - Takes an array as input and returns a random element
-	 *
-	 * @param	array
-	 * @return	mixed	depends on what the array contains
-	 */
-	function random_element($array)
-	{
-		return is_array($array) ? $array[array_rand($array)] : $array;
-	}
-}
-
-// --------------------------------------------------------------------
-
-if ( ! function_exists('elements'))
-{
-	/**
-	 * Elements
-	 *
-	 * Returns only the array items specified. Will return a default value if
-	 * it is not set.
-	 *
-	 * @param	array
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
-	 */
-	function elements($items, array $array, $default = NULL)
-	{
-		$return = array();
-
-		is_array($items) OR $items = array($items);
-
-		foreach ($items as $item)
+		if ($fp = @opendir($source_dir))
 		{
-			$return[$item] = array_key_exists($item, $array) ? $array[$item] : $default;
+			$filedata	= array();
+			$new_depth	= $directory_depth - 1;
+			$source_dir	= rtrim($source_dir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+
+			while (FALSE !== ($file = readdir($fp)))
+			{
+				// Remove '.', '..', and hidden files [optional]
+				if ($file === '.' OR $file === '..' OR ($hidden === FALSE && $file[0] === '.'))
+				{
+					continue;
+				}
+
+				is_dir($source_dir.$file) && $file .= DIRECTORY_SEPARATOR;
+
+				if (($directory_depth < 1 OR $new_depth > 0) && is_dir($source_dir.$file))
+				{
+					$filedata[$file] = directory_map($source_dir.$file, $new_depth, $hidden);
+				}
+				else
+				{
+					$filedata[] = $file;
+				}
+			}
+
+			closedir($fp);
+			return $filedata;
 		}
 
-		return $return;
+		return FALSE;
 	}
 }

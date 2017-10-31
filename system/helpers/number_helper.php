@@ -38,78 +38,57 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Array Helpers
+ * CodeIgniter Number Helpers
  *
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/array_helper.html
+ * @link		https://codeigniter.com/user_guide/helpers/number_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('element'))
+if ( ! function_exists('byte_format'))
 {
 	/**
-	 * Element
+	 * Formats a numbers as bytes, based on size, and adds the appropriate suffix
 	 *
-	 * Lets you determine whether an array index is set and whether it has a value.
-	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
-	 *
-	 * @param	string
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @param	mixed	will be cast as int
+	 * @param	int
+	 * @return	string
 	 */
-	function element($item, array $array, $default = NULL)
+	function byte_format($num, $precision = 1)
 	{
-		return array_key_exists($item, $array) ? $array[$item] : $default;
-	}
-}
+		$CI =& get_instance();
+		$CI->lang->load('number');
 
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('random_element'))
-{
-	/**
-	 * Random Element - Takes an array as input and returns a random element
-	 *
-	 * @param	array
-	 * @return	mixed	depends on what the array contains
-	 */
-	function random_element($array)
-	{
-		return is_array($array) ? $array[array_rand($array)] : $array;
-	}
-}
-
-// --------------------------------------------------------------------
-
-if ( ! function_exists('elements'))
-{
-	/**
-	 * Elements
-	 *
-	 * Returns only the array items specified. Will return a default value if
-	 * it is not set.
-	 *
-	 * @param	array
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
-	 */
-	function elements($items, array $array, $default = NULL)
-	{
-		$return = array();
-
-		is_array($items) OR $items = array($items);
-
-		foreach ($items as $item)
+		if ($num >= 1000000000000)
 		{
-			$return[$item] = array_key_exists($item, $array) ? $array[$item] : $default;
+			$num = round($num / 1099511627776, $precision);
+			$unit = $CI->lang->line('terabyte_abbr');
+		}
+		elseif ($num >= 1000000000)
+		{
+			$num = round($num / 1073741824, $precision);
+			$unit = $CI->lang->line('gigabyte_abbr');
+		}
+		elseif ($num >= 1000000)
+		{
+			$num = round($num / 1048576, $precision);
+			$unit = $CI->lang->line('megabyte_abbr');
+		}
+		elseif ($num >= 1000)
+		{
+			$num = round($num / 1024, $precision);
+			$unit = $CI->lang->line('kilobyte_abbr');
+		}
+		else
+		{
+			$unit = $CI->lang->line('bytes');
+			return number_format($num).' '.$unit;
 		}
 
-		return $return;
+		return number_format($num, $precision).' '.$unit;
 	}
 }

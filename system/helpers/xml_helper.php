@@ -38,78 +38,53 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Array Helpers
+ * CodeIgniter XML Helpers
  *
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/array_helper.html
+ * @link		https://codeigniter.com/user_guide/helpers/xml_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('element'))
+if ( ! function_exists('xml_convert'))
 {
 	/**
-	 * Element
-	 *
-	 * Lets you determine whether an array index is set and whether it has a value.
-	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
+	 * Convert Reserved XML characters to Entities
 	 *
 	 * @param	string
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @param	bool
+	 * @return	string
 	 */
-	function element($item, array $array, $default = NULL)
+	function xml_convert($str, $protect_all = FALSE)
 	{
-		return array_key_exists($item, $array) ? $array[$item] : $default;
-	}
-}
+		$temp = '__TEMP_AMPERSANDS__';
 
-// ------------------------------------------------------------------------
+		// Replace entities to temporary markers so that
+		// ampersands won't get messed up
+		$str = preg_replace('/&#(\d+);/', $temp.'\\1;', $str);
 
-if ( ! function_exists('random_element'))
-{
-	/**
-	 * Random Element - Takes an array as input and returns a random element
-	 *
-	 * @param	array
-	 * @return	mixed	depends on what the array contains
-	 */
-	function random_element($array)
-	{
-		return is_array($array) ? $array[array_rand($array)] : $array;
-	}
-}
-
-// --------------------------------------------------------------------
-
-if ( ! function_exists('elements'))
-{
-	/**
-	 * Elements
-	 *
-	 * Returns only the array items specified. Will return a default value if
-	 * it is not set.
-	 *
-	 * @param	array
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
-	 */
-	function elements($items, array $array, $default = NULL)
-	{
-		$return = array();
-
-		is_array($items) OR $items = array($items);
-
-		foreach ($items as $item)
+		if ($protect_all === TRUE)
 		{
-			$return[$item] = array_key_exists($item, $array) ? $array[$item] : $default;
+			$str = preg_replace('/&(\w+);/', $temp.'\\1;', $str);
 		}
 
-		return $return;
+		$str = str_replace(
+			array('&', '<', '>', '"', "'", '-'),
+			array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'),
+			$str
+		);
+
+		// Decode the temp markers back to entities
+		$str = preg_replace('/'.$temp.'(\d+);/', '&#\\1;', $str);
+
+		if ($protect_all === TRUE)
+		{
+			return preg_replace('/'.$temp.'(\w+);/', '&\\1;', $str);
+		}
+
+		return $str;
 	}
 }

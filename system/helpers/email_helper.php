@@ -38,78 +38,47 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Array Helpers
+ * CodeIgniter Email Helpers
  *
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/array_helper.html
+ * @link		https://codeigniter.com/user_guide/helpers/email_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('element'))
+if ( ! function_exists('valid_email'))
 {
 	/**
-	 * Element
+	 * Validate email address
 	 *
-	 * Lets you determine whether an array index is set and whether it has a value.
-	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
-	 *
-	 * @param	string
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @deprecated	3.0.0	Use PHP's filter_var() instead
+	 * @param	string	$email
+	 * @return	bool
 	 */
-	function element($item, array $array, $default = NULL)
+	function valid_email($email)
 	{
-		return array_key_exists($item, $array) ? $array[$item] : $default;
+		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
 	}
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('random_element'))
+if ( ! function_exists('send_email'))
 {
 	/**
-	 * Random Element - Takes an array as input and returns a random element
+	 * Send an email
 	 *
-	 * @param	array
-	 * @return	mixed	depends on what the array contains
+	 * @deprecated	3.0.0	Use PHP's mail() instead
+	 * @param	string	$recipient
+	 * @param	string	$subject
+	 * @param	string	$message
+	 * @return	bool
 	 */
-	function random_element($array)
+	function send_email($recipient, $subject, $message)
 	{
-		return is_array($array) ? $array[array_rand($array)] : $array;
-	}
-}
-
-// --------------------------------------------------------------------
-
-if ( ! function_exists('elements'))
-{
-	/**
-	 * Elements
-	 *
-	 * Returns only the array items specified. Will return a default value if
-	 * it is not set.
-	 *
-	 * @param	array
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
-	 */
-	function elements($items, array $array, $default = NULL)
-	{
-		$return = array();
-
-		is_array($items) OR $items = array($items);
-
-		foreach ($items as $item)
-		{
-			$return[$item] = array_key_exists($item, $array) ? $array[$item] : $default;
-		}
-
-		return $return;
+		return mail($recipient, $subject, $message);
 	}
 }

@@ -38,78 +38,67 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * CodeIgniter Array Helpers
+ * CodeIgniter Typography Helpers
  *
  * @package		CodeIgniter
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/array_helper.html
+ * @link		https://codeigniter.com/user_guide/helpers/typography_helper.html
  */
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('element'))
+if ( ! function_exists('nl2br_except_pre'))
 {
 	/**
-	 * Element
-	 *
-	 * Lets you determine whether an array index is set and whether it has a value.
-	 * If the element is empty it returns NULL (or whatever you specify as the default value.)
+	 * Convert newlines to HTML line breaks except within PRE tags
 	 *
 	 * @param	string
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @return	string
 	 */
-	function element($item, array $array, $default = NULL)
+	function nl2br_except_pre($str)
 	{
-		return array_key_exists($item, $array) ? $array[$item] : $default;
+		$CI =& get_instance();
+		$CI->load->library('typography');
+		return $CI->typography->nl2br_except_pre($str);
 	}
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists('random_element'))
+if ( ! function_exists('auto_typography'))
 {
 	/**
-	 * Random Element - Takes an array as input and returns a random element
+	 * Auto Typography Wrapper Function
 	 *
-	 * @param	array
-	 * @return	mixed	depends on what the array contains
+	 * @param	string	$str
+	 * @param	bool	$reduce_linebreaks = FALSE	whether to reduce multiple instances of double newlines to two
+	 * @return	string
 	 */
-	function random_element($array)
+	function auto_typography($str, $reduce_linebreaks = FALSE)
 	{
-		return is_array($array) ? $array[array_rand($array)] : $array;
+		$CI =& get_instance();
+		$CI->load->library('typography');
+		return $CI->typography->auto_typography($str, $reduce_linebreaks);
 	}
 }
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('elements'))
+if ( ! function_exists('entity_decode'))
 {
 	/**
-	 * Elements
+	 * HTML Entities Decode
 	 *
-	 * Returns only the array items specified. Will return a default value if
-	 * it is not set.
+	 * This function is a replacement for html_entity_decode()
 	 *
-	 * @param	array
-	 * @param	array
-	 * @param	mixed
-	 * @return	mixed	depends on what the array contains
+	 * @param	string
+	 * @param	string
+	 * @return	string
 	 */
-	function elements($items, array $array, $default = NULL)
+	function entity_decode($str, $charset = NULL)
 	{
-		$return = array();
-
-		is_array($items) OR $items = array($items);
-
-		foreach ($items as $item)
-		{
-			$return[$item] = array_key_exists($item, $array) ? $array[$item] : $default;
-		}
-
-		return $return;
+		return get_instance()->security->entity_decode($str, $charset);
 	}
 }
