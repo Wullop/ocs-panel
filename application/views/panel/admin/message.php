@@ -2,7 +2,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">ข้อความแจ้งเตือน
+            <h1 class="page-header">จัดการเครดิทลูกค้า
             </h1>
         </div>
     </div>
