@@ -41,13 +41,13 @@
 					<h4>บัญชีที่ใช้งาน</h4>
 					<div class="table-responsive"><table class="table table-hover">
 						<thead>
-							<tr><th>#</th><th>Nama</th><th>No Telp</th><th>Provider</th></tr>
+							<tr><th>ลบ</th><th>ชื่อ</th><th>เบอร์วอลเล็ท</th><th>ช่องทาง</th></tr>
                         </thead>
                         <tbody>
 						<?php foreach ($asset as $row): ?>
 							<tr>
 									<?php if (empty($row['rekening'])):?>
-									<td><a href="<?=base_url('admin/del_hp/'.$row['id'])?>">Del</a></td>
+									<td><a href="<?=base_url('admin/del_hp/'.$row['id'])?>">ลบ</a></td>
 									<td><?= $row['pemilik'] ?></td>
 									<td><?= $row['nohp']?></td>
 									<td><?= $row['provider']?></td>
@@ -63,3 +63,4 @@
    
     </div>
 </div>
+
