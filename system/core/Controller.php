@@ -38,96 +38,59 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Benchmark Class
+ * Application Controller Class
  *
- * This class enables you to mark points and calculate the time difference
- * between them. Memory consumption can also be displayed.
+ * This class object is the super class that every library in
+ * CodeIgniter will be assigned to.
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Libraries
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/libraries/benchmark.html
+ * @link		https://codeigniter.com/user_guide/general/controllers.html
  */
-class CI_Benchmark {
+class CI_Controller {
 
 	/**
-	 * List of all benchmark markers
+	 * Reference to the CI singleton
 	 *
-	 * @var	array
+	 * @var	object
 	 */
-	public $marker = array();
+	private static $instance;
 
 	/**
-	 * Set a benchmark marker
+	 * Class constructor
 	 *
-	 * Multiple calls to this function can be made so that several
-	 * execution points can be timed.
-	 *
-	 * @param	string	$name	Marker name
 	 * @return	void
 	 */
-	public function mark($name)
+	public function __construct()
 	{
-		$this->marker[$name] = microtime(TRUE);
+		self::$instance =& $this;
+
+		// Assign all the class objects that were instantiated by the
+		// bootstrap file (CodeIgniter.php) to local class variables
+		// so that CI can run as one big super object.
+		foreach (is_loaded() as $var => $class)
+		{
+			$this->$var =& load_class($class);
+		}
+
+		$this->load =& load_class('Loader', 'core');
+		$this->load->initialize();
+		log_message('info', 'Controller Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Elapsed time
+	 * Get the CI singleton
 	 *
-	 * Calculates the time difference between two marked points.
-	 *
-	 * If the first parameter is empty this function instead returns the
-	 * {elapsed_time} pseudo-variable. This permits the full system
-	 * execution time to be shown in a template. The output class will
-	 * swap the real value for this variable.
-	 *
-	 * @param	string	$point1		A particular marked point
-	 * @param	string	$point2		A particular marked point
-	 * @param	int	$decimals	Number of decimal places
-	 *
-	 * @return	string	Calculated elapsed time on success,
-	 *			an '{elapsed_string}' if $point1 is empty
-	 *			or an empty string if $point1 is not found.
+	 * @static
+	 * @return	object
 	 */
-	public function elapsed_time($point1 = '', $point2 = '', $decimals = 4)
+	public static function &get_instance()
 	{
-		if ($point1 === '')
-		{
-			return '{elapsed_time}';
-		}
-
-		if ( ! isset($this->marker[$point1]))
-		{
-			return '';
-		}
-
-		if ( ! isset($this->marker[$point2]))
-		{
-			$this->marker[$point2] = microtime(TRUE);
-		}
-
-		return number_format($this->marker[$point2] - $this->marker[$point1], $decimals);
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Memory Usage
-	 *
-	 * Simply returns the {memory_usage} marker.
-	 *
-	 * This permits it to be put it anywhere in a template
-	 * without the memory being calculated until the end.
-	 * The output class will swap the real value for this variable.
-	 *
-	 * @return	string	'{memory_usage}'
-	 */
-	public function memory_usage()
-	{
-		return '{memory_usage}';
+		return self::$instance;
 	}
 
 }
