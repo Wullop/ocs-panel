@@ -19,11 +19,11 @@
                     <form action="<?= base_url('panel/administrator/'.$_SESSION['username'].'/'.'addserver') ?>" method="POST">
                         <div class="form-group">
                             <label>ตั้งชื่อ</label>
-                            <input class="form-control" placeholder="Server Demo" name="ServerName" type="text" required>
+                            <input class="form-control" placeholder="ชื่อเซิฟร์เวอร์" name="ServerName" type="text" required>
                         </div>
                         <div class="form-group">
                             <label>ที่ตั้งเซิฟร์เวอร์</label>
-                            <input class="form-control" placeholder="Location Demo" name="Location" type="text" required>     
+                            <input class="form-control" placeholder="ประเทศ" name="Location" type="text" required>     
                         </div>
                         <div class="form-group">
                             <label>โฮส IP</label>
