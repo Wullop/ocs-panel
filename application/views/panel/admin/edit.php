@@ -36,13 +36,13 @@
 								</div>
 								<div class="col-xs-6">
 									<div class="form-group">
-										<label for="password_confirm">สร้างได้กี่บัญชี</label>
+										<label for="password_confirm">ขีดจำกัดบัญชี</label>
 										<input type="number" class="form-control" id="password_confirm" name="MaxUser" value="<?= $server->MaxUser ?>">
 									</div>
 								</div>			
 								<div class="col-xs-6">
 									<div class="form-group">
-										<label for="password_confirm">ใช้งานได้กี่วัน</label>
+										<label for="password_confirm">จำนวนวันใช้งาน</label>
 										<input type="number" class="form-control" id="password_confirm" name="Expired" value="<?= $server->Expired ?>">
 									</div>
 								</div>
@@ -67,3 +67,4 @@
 					</div>
 				</div></div><!-- .row -->
 		</div>
+
