@@ -2,7 +2,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">ข้อความแจ้งเตือนผู้เติมเครดิท
+            <h1 class="page-header">ข้อความแจ้งเตือน
             </h1>
         </div>
     </div>
@@ -16,7 +16,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>อันดับ</th>
+                                    <th>ลำดับ</th>
                                     <th>จาก</th>
                                     <th>ข้อความ</th>
                                     <th>วันที่</th>
