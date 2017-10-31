@@ -30,15 +30,15 @@
                             <input class="form-control" placeholder="192.168.1.1 atau www.example-server.com" name="HostName" type="text" required>
                         </div>
                         <div class="form-group">
-                            <label>ราคา</label>
+                            <label>ราคาที่เปิดเช่า</label>
                             <div class="input-group">
-                                <span class="input-group-addon">THB. </span>
-                                <input class="form-control" placeholder="1000" name="Price" type="number" step="10" required>
+                                <span class="input-group-addon">บาท</span>
+                                <input class="form-control" placeholder="ใส่จำนวนเต็มสิบ" name="Price" type="number" step="10" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>รหัสผ่านเซิฟร์เวอร์</label>
-                            <input class="form-control" placeholder="r0oT_p4s5wo0rD" name="RootPasswd" type="text">
+                            <input class="form-control" placeholder="ใส่รหัสรูทจากเซิฟที่เช่า" name="RootPasswd" type="text">
                         </div>
                         <input type="submit" class="btn btn-primary" value="เพิ่ม">
                         <a href="<?= base_url('panel/administrator/'.$_SESSION['username'].'/'.'server') ?>" class="btn btn-default">กลับ</a>
