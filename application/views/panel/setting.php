@@ -10,7 +10,7 @@
 			<?php if (isset($success)) {echo $success; }?>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-gear fa-fw"></i> เปลียนรหัสผ่าน
+                    <i class="fa fa-gear fa-fw"></i> เปลี่ยนรหัสผ่าน
                 </div>
                 <div class="panel-body">
                     <form role="form" action="<?= base_url('panel/'.$_SESSION['username'].'/setting')?>" method="POST">
