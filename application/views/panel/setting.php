@@ -10,7 +10,7 @@
 			<?php if (isset($success)) {echo $success; }?>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-gear fa-fw"></i> เปลี่ยนรหัสผ่าน
+                    <i class="fa fa-gear fa-fw"></i> เปลียนรหัสผ่าน
                 </div>
                 <div class="panel-body">
                     <form role="form" action="<?= base_url('panel/'.$_SESSION['username'].'/setting')?>" method="POST">
@@ -21,7 +21,11 @@
                         </div>
                         <div class="form-group">
                             <label>รหัสผ่านใหม่</label>
-                            <input class="form-control" placeholder="New Password" name="password" type=">
+                            <input class="form-control" placeholder="New Password" name="password" type="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>ยืนยันรหัสผ่าน</label>
+                            <input class="form-control" placeholder="Re-enter New Password" name="passconf" type="password" required>
                         </div>
                         <button class="btn btn-primary">บันทึก</button>
                     </form>
@@ -30,3 +34,4 @@
         </div>
     </div>
 </div>
+
