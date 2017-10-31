@@ -36,7 +36,7 @@
                     </div>
                  
                 </div>
-                <p>ยังไม่มีบันชีผู้ใช้คลิก <a href="<?= base_url('panel/register') ?>">สมัคร</a></p>
+                <p>ยังไม่มีบัญชีผู้ใช้คลิก <a href="<?= base_url('panel/register') ?>">สมัคร</a></p>
             </div>
           
         </div>
