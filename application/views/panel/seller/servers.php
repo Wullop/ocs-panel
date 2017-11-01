@@ -22,14 +22,14 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <b><?= $row['ServerName']?></b> <?php if ($row['Status']) { echo '';} else {echo "(Locked)";}?>
+                        <b><?= $row['ServerName']?></b> <?php if ($row['Status']) { echo '';} else {echo "(เต็ม)เซิร์ฟเวอร์จะเพิ่มเร็วๆนี้";}?>
                     </div>
                     <table class="table">
                         <tr>
                             <td>ประเทศ</td><td><?= $row['Location']?></b></td>
                         </tr>
                         <tr>
-                            <td>โฮส</td><td><?= $row['HostName']?></b></td>
+                            <td>โฮส/ไอพี</td><td><?= $row['HostName']?></b></td>
                         </tr>
                         <tr>
                             <td>ราคา</td><td><?= $row['Price']?></b></td>
