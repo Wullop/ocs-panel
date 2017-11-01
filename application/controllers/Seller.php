@@ -60,16 +60,16 @@ class Seller extends CI_Controller {
 				$hp = $this->input->post('hp');
 				$jumlah= $this->input->post('jumlah');
 				if (empty($mkios)) {
-					$pesan = $user->username. ' Meminta saldo via no hp: ' .$sender. ' dikirim ke nomor : '. $hp .' sebesar : '. $jumlah;
+					$pesan = $user->username. ' เลขบัญชีผู้โอน: ' .$sender. ' โอนเข้ามาที่เบอร์: '. $hp .' จำนวนเงิน : '. $jumlah;
 					} else {
-						$pesan = $user->username. ' Meminta saldo via mkios Dengan no seri ' .$mkios. ' dikirim ke nomor '.$hp.' sebesar : '. $jumlah;
+						$pesan = $user->username. ' การเติมเครดิทผ่านกรุณารอ ' .$mkios. ' ส่งไปที่หมายเลข '.$hp.' จำนวนเงิน : '. $jumlah;
 					}
 				$userid=$_SESSION['user_id'];
 				if ($this->user_model->deposit($userid, $pesan, $jumlah)) {
 					
 					
 					 $data = new stdClass();
-					 $data -> message = 'Terimakasih telah membeli ssh di server kami . silkan tunggu beberapa saat saldo anda akan bertambah otomatis, konfirmasi ini membutuhkan waktu paling lama 1x24 jam.';
+					 $data -> message = 'ขอขอบคุณที่ซื้อ ssh vpn บนเซิร์ฟเวอร์ของเรา โปรดรอสักครู่เมื่อยอดเงินของคุณเพิ่มขึ้นโดยอัตโนมัติการยืนยันนี้ใช้เวลาไม่เกิน 1x24 ชั่วโมง.';
 					 $data->user = $this->user_model->get_user($_SESSION['user_id']);
 					 $this->_set_view('panel/seller/addsaldo_hp', $data);
 				}
@@ -101,7 +101,7 @@ class Seller extends CI_Controller {
 				$pesan = $user->username. ' Meminta saldo sebesar '. $jumlah. ' via reqkening '. $sender. ' Dengan atas nama '.$username.' ke no req '. $rekening;
 				if ($this->user_model->deposit($userid, $pesan, $jumlah)) { 
 					 $data = new stdClass();
-					 $data -> message = 'Terimakasih telah membeli ssh di server kami . silkan tunggu beberapa saat saldo anda akan bertambah otomatis, konfirmasi ini membutuhkan waktu paling lama 1x24 jam.';
+					 $data -> message = 'ขอขอบคุณที่ซื้อ ssh vpn บนเซิร์ฟเวอร์ของเรา โปรดรอสักครู่เมื่อยอดเงินของคุณเพิ่มขึ้นโดยอัตโนมัติการยืนยันนี้ใช้เวลาไม่เกิน 1x24 ชั่วโมง.';
 					 $data->user = $this->user_model->get_user($_SESSION['user_id']);
 					 $this->_set_view('panel/seller/addsaldo_req', $data); 
 				}
@@ -117,11 +117,11 @@ class Seller extends CI_Controller {
 		
 		if (isset($_SESSION['username']) && $_SESSION['logged_in'] === true) {
 		    if ($this->user_model->get_hostname($id)->Status) {
-		        if ($this->user_model->get_user($_SESSION['user_id'])->saldo < $this->user_model->get_hostname($id)->Price)
+		        if ($this->user_model->get_user($_SESSION['user_id'])->สมดุล < $this->user_model->get_hostname($id)->Price)
 		        {
 					 
 					 $data = new stdClass();
-					 $data->message='<p class="text-danger">Saldo anda kurang</p>';
+					 $data->message='<p class="text-danger">ยอดเหลือน้อย</p>';
 					 $data->user = $this->user_model->get_user($_SESSION['user_id']);
 					 $data->server=$this->user_model->get_hostname();
 					 $this->_set_view('panel/seller/servers', $data);
@@ -143,7 +143,7 @@ class Seller extends CI_Controller {
 						$server=$this->user_model->get_hostname($id);
 						$by = $this->user_model->get_user($_SESSION['user_id']);
 						$dat = array(
-							'message' => '<div class="alert alert-success">Akun sukses dibuat</div>',
+							'message' => '<div class="alert alert-success">สร้างบัญชีสำเร็จแล้ว</div>',
 						    'hostname'=>$server->HostName,
 						    'rootpass'=>$server->RootPasswd,
 						    'openssh'=>$server->OpenSSH,
@@ -175,7 +175,7 @@ class Seller extends CI_Controller {
 										$this->load->view('panel/base/footer');
 									}
 								}
-							} else { echo "root pass salah";}
+							} else { echo "รหัสผ่านรูทไม่ถูกต้อง";}
 							
 						}
 						
@@ -217,12 +217,17 @@ class Seller extends CI_Controller {
 					if ($this->sshcepat->deletAccount($data)) {
 						redirect(base_url('panel/reseller/cek_account/'.$_SESSION['username']));
 						
-					} else {echo 'Root passwd wrong!';}
+					} else {echo 'รหัสผ่านรูทไม่ถูกต้อง!';}
 			} 
 			} else { show_404(); } 
 			
 		}
 		else { redirect(base_url('login/login')); }
+		
+	}
+	
+}
+
 		
 	}
 	
