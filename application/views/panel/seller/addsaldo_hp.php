@@ -8,7 +8,7 @@
     </div>
     <div class="row">
 		  <div class="col-sm-6">
-			   <p class="text-muted">รายละเอียด : หากมีการชำระเงินโปรดคลิกยืนยันจากนั้นยอดเงินของคุณจะเพิ่มขึ้นโดยอัตโนมัติภายใน1-2ชม. หลังจากได้รับการยืนยันจากผู้ดูแล :: กรุณาโอนเงินก่อนแจ้ง::</p>
+			   <p class="text-muted">รายละเอียด : หากมีการชำระเงินโปรดคลิกยืนยันจากนั้นยอดเงินของคุณจะเพิ่มขึ้นโดยอัตโนมัติภายใน1-2ชม. หลังจากได้รับการยืนยันจากผู้ดูแล :: {กรุณาโอนเงินก่อนแจ้ง}::</p>
 			   <h5>มีปัญหาเกียวกับการเติมเครดิต <a href='http://kguza.xyz/Line'><b>สอบถาม</b></a href></h5>
 			<h5>โอนเงินเข้าบัญชีวอลเล็ท 0923268286 <a href='http://kguza.xyz/Line'><b>ส่งหลักฐาน</b></a href></h5>
 		  </div>
@@ -30,7 +30,7 @@
 					<?php endif;?>
 			   <?= form_open() ?>
 					<div class="form-group">
-						<label for="sender">เลขบัญชีผู้โอน</label>
+						<label for="sender">เบอร์วอลเลทผู้โอน</label>
 						<input type="text" name="sender" class="form-control" id="sender" placeholder="xxxxxxxxxx"/>
 						<small class="text-muted">สำหรับหลักฐานการจ่ายเงินแล้ว</small>
 					</div>
@@ -47,7 +47,7 @@
 					<div class="form-group">
 						<label for="hp">จำนวนเงินที่โอน:ใส่ตามจริง:</label>
 						<input type="number" name="jumlah" class="form-control" id="jumlah" value="xx"/>
-						<small class="text-muted">โอนขั้นต่ำ 20 บาท</small>
+						<small class="text-muted">โอนขั้นต่ำ 50 บาท</small>
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary form-control" value="ยืนยัน"/>
