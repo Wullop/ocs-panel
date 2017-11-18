@@ -121,7 +121,7 @@ class Seller extends CI_Controller {
 		        {
 					 
 					 $data = new stdClass();
-					 $data->message='<p class="text-danger">Saldo anda kurang</p>';
+					 $data->message='<p class="text-danger">กรุณาเติมเครดิทให้เพียงพอก่อน</p>';
 					 $data->user = $this->user_model->get_user($_SESSION['user_id']);
 					 $data->server=$this->user_model->get_hostname();
 					 $this->_set_view('panel/seller/servers', $data);
